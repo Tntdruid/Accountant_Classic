@@ -40,16 +40,20 @@ local Accountant_RepairAllItems_old;
 local Accountant_CursorHasItem_old;
 
 function Accountant_RegisterEvents(self)
-	self:RegisterEvent("GARRISON_MISSION_COMPLETED");
 	self:RegisterEvent("LFG_COMPLETION_REWARD");
+	
+	self:RegisterEvent("GARRISON_MISSION_COMPLETED");
 	self:RegisterEvent("GARRISON_ARCHITECT_OPENED");
 	self:RegisterEvent("GARRISON_ARCHITECT_CLOSED");
 	self:RegisterEvent("GARRISON_MISSION_NPC_OPENED");
 	self:RegisterEvent("GARRISON_MISSION_NPC_CLOSED");
+	
 	self:RegisterEvent("VOID_STORAGE_OPEN");
 	self:RegisterEvent("VOID_STORAGE_CLOSE");
+	
 	self:RegisterEvent("TRANSMOGRIFY_OPEN");
 	self:RegisterEvent("TRANSMOGRIFY_CLOSE");
+	
 	self:RegisterEvent("MERCHANT_SHOW");
 	self:RegisterEvent("MERCHANT_CLOSED");
 	self:RegisterEvent("MERCHANT_UPDATE");
@@ -135,6 +139,9 @@ function Accountant_OnLoad(self)
 
 	Accountant_Player = UnitName("player");
 	Accountant_Server = GetRealmName();
+	Accountant_Faction = UnitFactionGroup("player");
+	--tnt debug
+	--message(Accountant_Faction);
 
 	-- Setup
 	Accountant_LoadData();
@@ -231,8 +238,7 @@ function Accountant_LoadData()
 	Accountant_Data["VOID"] =   {Title = ACCLOC_VOID};
 	Accountant_Data["TRANSMO"] =   {Title = ACCLOC_TRANSMO};
 	Accountant_Data["LRG"] =   {Title = ACCLOC_LFG};
-	Accountant_Data["GarrUB"] =   {Title = ACCLOC_GarrUB};
-	Accountant_Data["GarrMis"] =   {Title = ACCLOC_GarrMis};
+	Accountant_Data["Garrison"] =   {Title = ACCLOC_Garrison};
 
 	for key,value in pairs(Accountant_Data) do
 		for modekey,mode in pairs(Accountant_LogModes) do
@@ -247,19 +253,11 @@ function Accountant_LoadData()
 		Accountant_SaveData[Accountant_Server] = {};
 	end
 	if (Accountant_SaveData[Accountant_Server][Accountant_Player] == nil ) then
-		--cdate = date();
-		--tnt added
-		if GetLocale() == "enUS" then
-		cdate = date("%d/%m %Y");
-		else
 		cdate = date();
-		end
-		--tnt debug
-		--message(cdate);
+
 
 		
-		--cdate = string.sub(cdate,0,8);
-		cdate = string.sub(cdate,8,0);
+		cdate = string.sub(cdate,0,8);
 		cweek = "";
 		Accountant_SaveData[Accountant_Server][Accountant_Player] = {options={showbutton=true,buttonpos=0,version=Accountant_Version,date=cdate,weekdate=cweek,weekstart=1,totalcash=0},data={}};
 		ACC_Print(ACCLOC_NEWPROFILE.." "..Accountant_Player);
@@ -311,14 +309,9 @@ function Accountant_LoadData()
 	end
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] == nil then
 		
-		--tnt
-		if GetLocale() == "enUS" then
-		cdate = date("%d/%m %Y");
-		else
-		cdate = date();
-		end
+
 		
-		--cdate = date();
+		cdate = date();
 	
 		cdate = string.sub(cdate,0,8);
 		
@@ -327,16 +320,9 @@ function Accountant_LoadData()
 
 	--Duplicate below from OnShow as the day and week data seems need to be initialize here, when the addon is loaded for a fresh day/week.
 	-- Check to see if the day has rolled over
-	--cdate = date();
-	--tnt added
-		if GetLocale() == "enUS" then
-		cdate = date("%d/%m %Y");
-		else
-		cdate = date();
-		end
-		
-	--cdate = string.sub(cdate,0,8);
-	cdate = string.sub(cdate,8,0);
+	cdate = date();
+
+	cdate = string.sub(cdate,0,8);
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] ~= cdate then
 		-- Its a new day! clear out the day tab
 		for mode,value in pairs(Accountant_Data) do
@@ -404,20 +390,18 @@ function Accountant_OnEvent(self, event, ...)
 	end
 	if event == "LFG_COMPLETION_REWARD" then
 		Accountant_Mode = "LRG";
-		--Accountant_LFGgold(LFGgold);
-	--end
 	elseif event == "GARRISON_MISSION_COMPLETED" then
-		Accountant_Mode = "GarrMis";
+		Accountant_Mode = "Garrison";
 	elseif event == "TRANSMOGRIFY_OPEN" then
 		Accountant_Mode = "TRANSMO";
 	elseif event == "TRANSMOGRIFY_CLOSE" then
 		Accountant_Mode = "";
 	elseif event == "GARRISON_ARCHITECT_OPENED" then
-		Accountant_Mode = "GarrUB";
+		Accountant_Mode = "Garrison";
 	elseif event == "GARRISON_ARCHITECT_CLOSED" then
 		Accountant_Mode = "";
 	elseif event == " GARRISON_MISSION_NPC_OPENED" then
-		Accountant_Mode = "GarrMis";
+		Accountant_Mode = "Garrison";
 	elseif event == " GARRISON_MISSION_NPC_CLOSED" then
 	Accountant_Mode = "";
 	elseif event == "VOID_STORAGE_OPEN" then
@@ -457,6 +441,8 @@ function Accountant_OnEvent(self, event, ...)
 		Accountant_Mode = "MAIL";
 	elseif event == "MAIL_CLOSED" then
 		Accountant_Mode = "";
+	elseif event == "CONFIRM_TALENT_WIPE" then
+		Accountant_Mode = "TRAIN";
 	elseif event == "TRAINER_SHOW" then
 		Accountant_Mode = "TRAIN";
 	elseif event == "TRAINER_CLOSED" then
@@ -550,8 +536,7 @@ end
 function Accountant_WeekStart()
 	oneday = 86400;
 	ct = time();
-	--dt = date("*t",ct);
-	dt = date("%d/%m %Y",ct);
+	dt = date("*t",ct);
 	thisDay = dt["wday"];
 	while thisDay ~= Accountant_SaveData[Accountant_Server][Accountant_Player]["options"].weekstart do
 		ct = ct - oneday;
@@ -564,14 +549,8 @@ end
 
 function Accountant_OnShow()
 	-- Check to see if the day has rolled over
-	--cdate = date();
-	
-		--tnt added
-		if GetLocale() == "enUS" then
-		cdate = date("%d/%m %Y");
-		else
-		cdate = date();
-		end
+	cdate = date();
+
 	
 	cdate = string.sub(cdate,0,8);
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] ~= cdate then

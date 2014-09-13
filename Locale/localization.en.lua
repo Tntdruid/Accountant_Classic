@@ -18,7 +18,7 @@ ACCLOC_UPDATED		= "Updated";
 -- Section Labels
 ACCLOC_LOOT		= "Loot";
 ACCLOC_QUEST		= "Quest Rewards";
-ACCLOC_MERCH		= "Merchants";
+ACCLOC_MERCH		= "Vendors";
 ACCLOC_TRADE		= "Trade Window";
 ACCLOC_MAIL		= "Mail";
 ACCLOC_TRAIN		= "Training Costs";
@@ -29,8 +29,7 @@ ACCLOC_AUC		= "Auction House";
 ACCLOC_VOID     = "Void Storage"
 ACCLOC_TRANSMO = "Transmogrify"
 ACCLOC_LFG = "Dungeon Finder"
-ACCLOC_GarrUB = "Garrison Upg. & Building"
-ACCLOC_GarrMis = "Garrison Missions"
+ACCLOC_Garrison = "Garrison"
 
 -- Buttons
 ACCLOC_RESET		= "Reset";
