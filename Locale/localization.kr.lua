@@ -27,6 +27,11 @@ ACCLOC_TAXI		= "비행 요금";
 ACCLOC_OTHER		= "알수없음";
 ACCLOC_REPAIR		= "수리 비용";
 ACCLOC_AUC		= "경매장";
+ACCLOC_VOID     = "Void Storage"
+ACCLOC_TRANSMO = "Transmogrify"
+ACCLOC_Garrison = "Garrison"
+ACCLOC_LFG = "LFD, LFR and Scen."
+ACCLOC_Hair = "Barber Shop"
 
 -- Buttons
 ACCLOC_RESET		= "재설정";

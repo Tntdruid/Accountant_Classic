@@ -27,6 +27,11 @@ ACCLOC_TAXI		= "飞行花费";
 ACCLOC_OTHER		= "未知";
 ACCLOC_REPAIR		= "修理装备";
 ACCLOC_AUC		= "拍卖场";
+ACCLOC_VOID     = "Void Storage"
+ACCLOC_TRANSMO = "Transmogrify"
+ACCLOC_Garrison = "Garrison"
+ACCLOC_LFG = "LFD, LFR and Scen."
+ACCLOC_Hair = "Barber Shop"
 
 -- Buttons
 ACCLOC_RESET		= "归零";

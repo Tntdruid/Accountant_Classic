@@ -27,6 +27,11 @@ ACCLOC_TAXI		= "Такси";
 ACCLOC_OTHER		= "Неизвестный";
 ACCLOC_REPAIR		= "Затраты на ремонт";
 ACCLOC_AUC		= "Аукцион";
+ACCLOC_VOID     = "Void Storage"
+ACCLOC_TRANSMO = "Transmogrify"
+ACCLOC_Garrison = "Garrison"
+ACCLOC_LFG = "LFD, LFR and Scen."
+ACCLOC_Hair = "Barber Shop"
 
 -- Buttons
 ACCLOC_RESET		= "Сбросить";

@@ -28,8 +28,9 @@ ACCLOC_REPAIR		= "Repair Costs";
 ACCLOC_AUC		= "Auction House";
 ACCLOC_VOID     = "Void Storage"
 ACCLOC_TRANSMO = "Transmogrify"
-ACCLOC_LFG = "Dungeon Finder"
 ACCLOC_Garrison = "Garrison"
+ACCLOC_LFG = "LFD, LFR and Scen."
+ACCLOC_Hair = "Barber Shop"
 
 -- Buttons
 ACCLOC_RESET		= "Reset";

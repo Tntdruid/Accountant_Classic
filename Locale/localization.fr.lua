@@ -30,6 +30,11 @@ ACCLOC_TAXI		= "Prix du Taxi";
 ACCLOC_OTHER		= "Inconnu";
 ACCLOC_REPAIR		= "Coût Réparation";
 ACCLOC_AUC		= "Hotel des Ventes";
+ACCLOC_VOID     = "Void Storage"
+ACCLOC_TRANSMO = "Transmogrify"
+ACCLOC_Garrison = "Garrison"
+ACCLOC_LFG = "LFD, LFR and Scen."
+ACCLOC_Hair = "Barber Shop"
 
 -- Buttons
 ACCLOC_RESET		= "Reset";

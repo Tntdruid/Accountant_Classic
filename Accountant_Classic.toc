@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+﻿## Interface: 50400
 ## Title: Accountant Classic
 ## Title-zhTW: |cFF00FF00[資訊]|rAccountant Classic 個人會計
 ## Title-zhCN: |cFF00FF00[信息]|rAccountant Classic 个人会计

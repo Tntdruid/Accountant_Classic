@@ -1,6 +1,5 @@
 ﻿-- DE Translation, thanks to snj & JokerGermany ;)
 -- New one
-
 if (GetLocale() == "deDE") then
 
 -- Header
@@ -31,6 +30,11 @@ ACCLOC_TAXI		= "Reisekosten";
 ACCLOC_OTHER		= "Unbekannt";
 ACCLOC_REPAIR		= "Reparaturkosten";
 ACCLOC_AUC		= "Auktionshaus";
+ACCLOC_VOID     = "Void Storage"
+ACCLOC_TRANSMO = "Transmogrify"
+ACCLOC_Garrison = "Garrison"
+ACCLOC_LFG = "LFD, LFR and Scen."
+ACCLOC_Hair = "Barber Shop"
 
 -- Buttons
 ACCLOC_RESET		= "Reset";

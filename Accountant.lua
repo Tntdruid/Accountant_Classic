@@ -33,20 +33,26 @@ Accountant_LastMoney = 0;
 Accountant_Verbose = nil;
 Accountant_GotName = false;
 Accountant_CurrentTab = 1;
-Accountant_LogModes = {"Session","Day","Week","Total,Month"};
+Accountant_LogModes = {"Session","Day","Week","Total"};
 Accountant_Player = "";
 Accountant_Server = "";
 local Accountant_RepairAllItems_old;
 local Accountant_CursorHasItem_old;
 
 function Accountant_RegisterEvents(self)
-	self:RegisterEvent("LFG_COMPLETION_REWARD");
 	
 	self:RegisterEvent("GARRISON_MISSION_COMPLETED");
 	self:RegisterEvent("GARRISON_ARCHITECT_OPENED");
 	self:RegisterEvent("GARRISON_ARCHITECT_CLOSED");
 	self:RegisterEvent("GARRISON_MISSION_NPC_OPENED");
 	self:RegisterEvent("GARRISON_MISSION_NPC_CLOSED");
+	
+	self:RegisterEvent("BARBER_SHOP_SUCCESS");
+	self:RegisterEvent("BARBER_SHOP_CLOSE");
+	
+	self:RegisterEvent("CONFIRM_TALENT_WIPE");
+	
+	self:RegisterEvent("LFG_COMPLETION_REWARD");
 	
 	self:RegisterEvent("VOID_STORAGE_OPEN");
 	self:RegisterEvent("VOID_STORAGE_CLOSE");
@@ -125,6 +131,9 @@ function Accountant_SetLabels(self)
 			_G["AccountantFrameRow"..InPos.."Title"]:SetPoint("TOPLEFT", 3, -2);
 			InPos = InPos + 1;
 		end
+		
+
+
 
 		-- Set the header
 		local name = AccountantFrame:GetName();
@@ -237,8 +246,9 @@ function Accountant_LoadData()
 	Accountant_Data["OTHER"] = 	{Title = ACCLOC_OTHER};
 	Accountant_Data["VOID"] =   {Title = ACCLOC_VOID};
 	Accountant_Data["TRANSMO"] =   {Title = ACCLOC_TRANSMO};
-	Accountant_Data["LRG"] =   {Title = ACCLOC_LFG};
 	Accountant_Data["Garrison"] =   {Title = ACCLOC_Garrison};
+	Accountant_Data["LFG"] =   {Title = ACCLOC_LFG};
+	Accountant_Data["Hair"] = {Title = ACCLOC_Hair};
 
 	for key,value in pairs(Accountant_Data) do
 		for modekey,mode in pairs(Accountant_LogModes) do
@@ -253,8 +263,9 @@ function Accountant_LoadData()
 		Accountant_SaveData[Accountant_Server] = {};
 	end
 	if (Accountant_SaveData[Accountant_Server][Accountant_Player] == nil ) then
-		cdate = date();
-
+		--cdate = date();
+		--tnt
+		cdate = date ("%d/%m/%y")
 
 		
 		cdate = string.sub(cdate,0,8);
@@ -310,9 +321,9 @@ function Accountant_LoadData()
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] == nil then
 		
 
-		
-		cdate = date();
-	
+		--tnt
+		--cdate = date();
+		cdate = date ("%d/%m/%y")
 		cdate = string.sub(cdate,0,8);
 		
 		Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] = cdate;
@@ -320,8 +331,9 @@ function Accountant_LoadData()
 
 	--Duplicate below from OnShow as the day and week data seems need to be initialize here, when the addon is loaded for a fresh day/week.
 	-- Check to see if the day has rolled over
-	cdate = date();
-
+	--tnt
+	--cdate = date();
+	cdate = date ("%d/%m/%y")
 	cdate = string.sub(cdate,0,8);
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] ~= cdate then
 		-- Its a new day! clear out the day tab
@@ -388,10 +400,16 @@ function Accountant_OnEvent(self, event, ...)
 		end
 		return;
 	end
-	if event == "LFG_COMPLETION_REWARD" then
-		Accountant_Mode = "LRG";
-	elseif event == "GARRISON_MISSION_COMPLETED" then
+
+	
+	if event == "GARRISON_MISSION_COMPLETED" then
 		Accountant_Mode = "Garrison";
+	elseif event == "LFG_COMPLETION_REWARD" then
+		Accountant_Mode = "LFG";
+	elseif Accountant_Mode == "BARBER_SHOP_SUCCESS" then
+		Accountant_Mode = "";
+	elseif Accountant_Mode == "BARBER_SHOP_CLOSE" then
+		Accountant_Mode = "Hair";
 	elseif event == "TRANSMOGRIFY_OPEN" then
 		Accountant_Mode = "TRANSMO";
 	elseif event == "TRANSMOGRIFY_CLOSE" then
@@ -438,9 +456,10 @@ function Accountant_OnEvent(self, event, ...)
 		-- Commented out due to quest window closing before money transaction
 		-- Accountant_Mode = "";
 	elseif event == "MAIL_SHOW" then
-		Accountant_Mode = "MAIL";
-	elseif event == "MAIL_CLOSED" then
-		Accountant_Mode = "";
+		Accountant_DetectAhMail();
+		--Accountant_Mode = "MAIL";
+	--elseif event == "MAIL_CLOSED" then
+		--Accountant_Mode = "";
 	elseif event == "CONFIRM_TALENT_WIPE" then
 		Accountant_Mode = "TRAIN";
 	elseif event == "TRAINER_SHOW" then
@@ -458,6 +477,30 @@ function Accountant_OnEvent(self, event, ...)
 		Accountant_OnShareMoney(arg1);
 	end
 	if Accountant_Verbose and Accountant_Mode ~= oldmode then ACC_Print("Accountant mode changed to '"..Accountant_Mode.."'"); end
+end
+
+--local function Accountant_DetectAhMail()
+    --local numItems = GetInboxNumItems()
+    --for x = 1, numItems do  
+        --local invoiceType = GetInboxInvoiceInfo(x)
+        --if string.find(string.lower(invoiceType), "seller") then
+            --auditorMode = "AH";
+		--else
+			--auditorMode = "MAIL";
+        --end
+    --end
+--end
+local function Accountant_DetectAhMail()
+    local numItems, totalItems = GetInboxNumItems()
+    for x = 1, totalItems do    
+        local invoiceType = GetInboxInvoiceInfo(x)
+        print(x, invoiceType)
+        if string.find(string.lower(invoiceType), "seller") then
+            auditorMode = "AH";
+			else
+			auditorMode = "MAIL";
+        end
+    end
 end
 
 function Accountant_OnShareMoney(arg1)
@@ -490,6 +533,7 @@ function Accountant_OnShareMoney(arg1)
 		Accountant_LastMoney = 0;
 	end
 
+	
 -- This will force a money update with calculated amount.
 	Accountant_LastMoney = Accountant_LastMoney - money;
 	Accountant_Mode = "LOOT";
@@ -549,8 +593,9 @@ end
 
 function Accountant_OnShow()
 	-- Check to see if the day has rolled over
-	cdate = date();
-
+	--tnt
+	--cdate = date();
+	cdate = date ("%d/%m/%y")
 	
 	cdate = string.sub(cdate,0,8);
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] ~= cdate then
