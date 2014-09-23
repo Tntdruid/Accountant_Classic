@@ -76,6 +76,7 @@ function Accountant_RegisterEvents(self)
 	self:RegisterEvent("TRADE_SHOW");
 	self:RegisterEvent("TRADE_CLOSE");
 
+	self:RegisterEvent("MAIL_INBOX_UPDATE");
 	self:RegisterEvent("MAIL_SHOW");
 	self:RegisterEvent("MAIL_CLOSED");
 
@@ -455,7 +456,8 @@ function Accountant_OnEvent(self, event, ...)
 	elseif event == "QUEST_FINISHED" then
 		-- Commented out due to quest window closing before money transaction
 		-- Accountant_Mode = "";
-	elseif event == "MAIL_SHOW" then
+	--elseif event == "MAIL_SHOW" then
+	elseif event == "MAIL_INBOX_UPDATE" then
 		Accountant_DetectAhMail();
 		--Accountant_Mode = "MAIL";
 	--elseif event == "MAIL_CLOSED" then
@@ -479,27 +481,13 @@ function Accountant_OnEvent(self, event, ...)
 	if Accountant_Verbose and Accountant_Mode ~= oldmode then ACC_Print("Accountant mode changed to '"..Accountant_Mode.."'"); end
 end
 
---local function Accountant_DetectAhMail()
-    --local numItems = GetInboxNumItems()
-    --for x = 1, numItems do  
-        --local invoiceType = GetInboxInvoiceInfo(x)
-        --if string.find(string.lower(invoiceType), "seller") then
-            --auditorMode = "AH";
-		--else
-			--auditorMode = "MAIL";
-        --end
-    --end
---end
-local function Accountant_DetectAhMail()
-    local numItems, totalItems = GetInboxNumItems()
-    for x = 1, totalItems do    
-        local invoiceType = GetInboxInvoiceInfo(x)
-        print(x, invoiceType)
-        if string.find(string.lower(invoiceType), "seller") then
-            auditorMode = "AH";
-			else
-			auditorMode = "MAIL";
-        end
+function Accountant_DetectAhMail()
+    local numItems = GetInboxNumItems()
+    local invoiceType = GetInboxInvoiceInfo(numItems)
+    if invoiceType == "seller" then
+        auditorMode = "AH";
+		else
+		auditorMode = "MAIL";
     end
 end
 
