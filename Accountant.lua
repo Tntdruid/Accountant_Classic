@@ -455,13 +455,9 @@ function Accountant_OnEvent(self, event, ...)
 		Accountant_Mode = "QUEST";
 	elseif event == "QUEST_FINISHED" then
 		-- Commented out due to quest window closing before money transaction
-		-- Accountant_Mode = "";
-	--elseif event == "MAIL_SHOW" then
+		-- Accountant_Mode = "";	
 	elseif event == "MAIL_INBOX_UPDATE" then
 		Accountant_DetectAhMail();
-		--Accountant_Mode = "MAIL";
-	--elseif event == "MAIL_CLOSED" then
-		--Accountant_Mode = "";
 	elseif event == "CONFIRM_TALENT_WIPE" then
 		Accountant_Mode = "TRAIN";
 	elseif event == "TRAINER_SHOW" then
