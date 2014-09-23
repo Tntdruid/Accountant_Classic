@@ -456,8 +456,11 @@ function Accountant_OnEvent(self, event, ...)
 	elseif event == "QUEST_FINISHED" then
 		-- Commented out due to quest window closing before money transaction
 		-- Accountant_Mode = "";	
+	
 	elseif event == "MAIL_INBOX_UPDATE" then
-		Accountant_DetectAhMail();
+    if Accountant_DetectAhMail() then
+        Accountant_Mode = "AH"
+    end
 	elseif event == "CONFIRM_TALENT_WIPE" then
 		Accountant_Mode = "TRAIN";
 	elseif event == "TRAINER_SHOW" then
@@ -478,12 +481,12 @@ function Accountant_OnEvent(self, event, ...)
 end
 
 function Accountant_DetectAhMail()
-    local numItems = GetInboxNumItems()
-    local invoiceType = GetInboxInvoiceInfo(numItems)
-    if invoiceType == "seller" then
-        auditorMode = "AH";
-		else
-		auditorMode = "MAIL";
+    local numItems, totalItems = GetInboxNumItems()
+    for x = 1, totalItems do    
+        local invoiceType = GetInboxInvoiceInfo(x)
+        if invoiceType == "seller" then
+            return true
+        end
     end
 end
 
