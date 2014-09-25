@@ -19,8 +19,8 @@ $Id: Accountant.lua 79 2014-02-05 16:06:03Z arith $
 	Everyone who commented and voted for the mod on curse-gaming.com
   Thiou for the French loc, Snj & JokerGermany for the German loc
   ---------------------------------------------------------------------
-  v2.4 - current version:
-     Updated by: Arith
+  v2.4 Updated by: Arith
+  v2.6 Updated by: Tntdruid
 ]]
 
 Accountant_Version = GetAddOnMetadata("Accountant", "Version");
@@ -460,6 +460,8 @@ function Accountant_OnEvent(self, event, ...)
 	elseif event == "MAIL_INBOX_UPDATE" then
     if Accountant_DetectAhMail() then
         Accountant_Mode = "AH"
+		else
+		Accountant_Mode = "MAIL"
     end
 	elseif event == "CONFIRM_TALENT_WIPE" then
 		Accountant_Mode = "TRAIN";
