@@ -19,8 +19,9 @@ $Id: Accountant.lua 79 2014-02-05 16:06:03Z arith $
 	Everyone who commented and voted for the mod on curse-gaming.com
   Thiou for the French loc, Snj & JokerGermany for the German loc
   ---------------------------------------------------------------------
-  v2.4 Updated by: Arith
-  v2.6 Updated by: Tntdruid
+  v2.4 - Updated by: Arith
+  v2.6  current version:
+     Updated by: Tntdruid
 ]]
 
 Accountant_Version = GetAddOnMetadata("Accountant", "Version");
@@ -77,8 +78,8 @@ function Accountant_RegisterEvents(self)
 	self:RegisterEvent("TRADE_CLOSE");
 
 	self:RegisterEvent("MAIL_INBOX_UPDATE");
-	self:RegisterEvent("MAIL_SHOW");
-	self:RegisterEvent("MAIL_CLOSED");
+	--self:RegisterEvent("MAIL_SHOW");
+	--self:RegisterEvent("MAIL_CLOSED");
 
 	self:RegisterEvent("TRAINER_SHOW");
 	self:RegisterEvent("TRAINER_CLOSED");
@@ -264,8 +265,7 @@ function Accountant_LoadData()
 		Accountant_SaveData[Accountant_Server] = {};
 	end
 	if (Accountant_SaveData[Accountant_Server][Accountant_Player] == nil ) then
-		--cdate = date();
-		--tnt
+
 		cdate = date ("%d/%m/%y")
 
 		
@@ -322,9 +322,9 @@ function Accountant_LoadData()
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] == nil then
 		
 
-		--tnt
-		--cdate = date();
+
 		cdate = date ("%d/%m/%y")
+
 		cdate = string.sub(cdate,0,8);
 		
 		Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] = cdate;
@@ -332,9 +332,8 @@ function Accountant_LoadData()
 
 	--Duplicate below from OnShow as the day and week data seems need to be initialize here, when the addon is loaded for a fresh day/week.
 	-- Check to see if the day has rolled over
-	--tnt
-	--cdate = date();
-	cdate = date ("%d/%m/%y")
+		cdate = date ("%d/%m/%y")
+
 	cdate = string.sub(cdate,0,8);
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] ~= cdate then
 		-- Its a new day! clear out the day tab
@@ -585,6 +584,7 @@ function Accountant_OnShow()
 	--tnt
 	--cdate = date();
 	cdate = date ("%d/%m/%y")
+
 	
 	cdate = string.sub(cdate,0,8);
 	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] ~= cdate then

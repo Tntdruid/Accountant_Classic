@@ -27,11 +27,11 @@ ACCLOC_TAXI		= "飛行花費";
 ACCLOC_OTHER		= "未知";
 ACCLOC_REPAIR		= "修理裝備";
 ACCLOC_AUC		= "拍賣場";
-ACCLOC_VOID     = "Void Storage"
-ACCLOC_TRANSMO = "Transmogrify"
-ACCLOC_Garrison = "Garrison"
-ACCLOC_LFG = "LFD, LFR and Scen."
-ACCLOC_Hair = "Barber Shop"
+ACCLOC_VOID = "虛空倉庫"
+ACCLOC_TRANSMO = "塑形"
+ACCLOC_Garrison = "要塞"
+ACCLOC_LFG = "隨機地城、團隊與事件"
+ACCLOC_Hair = "美容理髮院"
                           
 -- Buttons
 ACCLOC_RESET		= "歸零";
