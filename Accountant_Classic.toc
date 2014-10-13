@@ -10,6 +10,8 @@
 ## Notes-koKR: |cff00CC33나만의 수입 지출을 쉽게 볼수있는 와우 가계부입니다.|r
 ## Author: Arith Hsu
 ## Version: 2.6.1
+## OptionalDeps: LibAboutPanel, CallbackHandler-1.0
+## SavedVariables: Accountant_SaveData, Accountant_Options
 
 Libs\Libs.xml
 Locale\Locales.xml
